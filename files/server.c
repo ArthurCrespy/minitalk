@@ -12,7 +12,12 @@
 
 #include "minitalk.h"
 
-void	recieve_bits(int sig)
+void	send_confirmation(siginfo_t *siginfo)
+{
+	kill(siginfo->si_pid, SIGUSR1);
+}
+
+void	receive_bits(int sig, siginfo_t *siginfo, void *context)
 {
 	static char	c;
 	static int	bit;
