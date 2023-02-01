@@ -12,6 +12,19 @@
 
 #include "minitalk.h"
 
+void	null_kill(int pid)
+{
+	int	i;
+
+	i = 0;
+	while (i < 8)
+	{
+		usleep(100);
+		kill(pid, SIGUSR2);
+		i++;
+	}
+}
+
 void	send_bits(int pid, char *str)
 {
 	int		i;
