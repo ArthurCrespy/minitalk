@@ -35,12 +35,15 @@ void	receive_bits(int sig, siginfo_t *siginfo, void *context)
 
 int	main(void)
 {
-	write(1, "PID: ", 5);
+	struct sigaction	sig;
+
+	sig.sa_sigaction = receive_bits;
+	sig.sa_flags = SA_SIGINFO;
+	write(1, "> PID: ", 7);
 	ft_putnbr_fd(getpid(), 1);
 	write(1, "\n", 1);
-	signal(SIGUSR1, recieve_bits);
-	signal(SIGUSR2, recieve_bits);
-	write(1, "\n", 1);
+	sigaction(SIGUSR1, &sig, NULL);
+	sigaction(SIGUSR2, &sig, NULL);
 	while (1)
 		pause();
 	return (0);
