@@ -49,6 +49,15 @@ void	send_bits(int pid, char *str)
 		}
 		i++;
 	}
+	null_kill(pid);
+}
+
+void	receive_confirmation(int sig, siginfo_t *siginfo, void *content)
+{
+	(void) content;
+	(void) siginfo;
+	if (sig == SIGUSR1)
+		write(1, "> OK: Message sent\n", 18);
 }
 
 int	main(int argc, char **argv)
