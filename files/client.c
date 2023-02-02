@@ -66,14 +66,12 @@ int	main(int argc, char **argv)
 
 	sig.sa_sigaction = receive_confirmation;
 	sig.sa_flags = SA_SIGINFO;
-	sigaction(SIGUSR1, &sig, NULL);
-	if (argc < 3 || argc > 3)
-	{
-		write(1, "> Error: wrong number of arguments", 33);
-		return (1);
-	}
+	sigaction(SIGUSR2, &sig, NULL);
+	if (check_pid(argc, argv))
+		return (0);
 	send_bits(ft_atoi(argv[1]), argv[2]);
-	while (1)
-		;
+	sleep(1);
+	if (g_message_status)
+		write(1, "> Error: Message not sent\n", 25);
 	return (0);
 }
