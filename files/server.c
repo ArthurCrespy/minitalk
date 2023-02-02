@@ -10,11 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "minitalk.h"
 
 void	send_confirmation(siginfo_t *siginfo)
 {
-	kill(siginfo->si_pid, SIGUSR1);
+	kill(siginfo->si_pid, SIGUSR2);
 }
 
 void	store_char(char c, t_struct **message)
@@ -40,8 +41,9 @@ void	store_char(char c, t_struct **message)
 
 void	receive_bits(int sig, siginfo_t *siginfo, void *context)
 {
-	static char	c;
-	static int	bit;
+	static char			c;
+	static int			bit;
+	static t_struct		*message = NULL;
 
 	(void) context;
 	(void) siginfo;
@@ -54,6 +56,8 @@ void	receive_bits(int sig, siginfo_t *siginfo, void *context)
 		{
 			print_list(message);
 			send_confirmation(siginfo);
+			clear_list(message);
+			message = NULL;
 		}
 		store_char(c, &message);
 		c = 0;
