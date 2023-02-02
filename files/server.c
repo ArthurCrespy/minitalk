@@ -6,7 +6,7 @@
 /*   By: acrespy <acrespy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 08:28:53 by acrespy           #+#    #+#             */
-/*   Updated: 2023/02/01 14:34:13 by acrespy          ###   ########.fr       */
+/*   Updated: 2023/02/02 15:52:20 by acrespy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,27 @@
 void	send_confirmation(siginfo_t *siginfo)
 {
 	kill(siginfo->si_pid, SIGUSR1);
+}
+
+void	store_char(char c, t_struct **message)
+{
+	t_struct	*new;
+	t_struct	*tmp;
+
+	new = malloc(sizeof(t_struct));
+	if (!new)
+		clear_list(*message);
+	new->data = c;
+	new->next = NULL;
+	if (*message == NULL)
+		*message = new;
+	else
+	{
+		tmp = *message;
+		while (tmp->next != NULL)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
 }
 
 void	receive_bits(int sig, siginfo_t *siginfo, void *context)
@@ -31,10 +52,10 @@ void	receive_bits(int sig, siginfo_t *siginfo, void *context)
 	{
 		if (c == 0)
 		{
-			write(1, "\n", 1);
+			print_list(message);
 			send_confirmation(siginfo);
 		}
-		write(1, &c, 1);
+		store_char(c, &message);
 		c = 0;
 		bit = 0;
 	}
