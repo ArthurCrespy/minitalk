@@ -15,9 +15,18 @@
 
 # include <signal.h>
 # include <unistd.h>
+# include <stdlib.h>
+
+typedef struct Node {
+	char		data;
+	struct Node	*next;
+}				t_struct;
 
 size_t	ft_strlen(const char *s);
-void	ft_putnbr_fd(int n, int fd);
 long	ft_atoi(const char *str);
+void	ft_putnbr_fd(int n, int fd);
+void	ft_putchar_fd(char c, int fd);
+void	clear_list(t_struct *message);
+void	print_list(t_struct *message);
 
 #endif
