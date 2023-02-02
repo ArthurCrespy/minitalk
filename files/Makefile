@@ -11,8 +11,10 @@
 # **************************************************************************** #
 
 NAME = minitalk
+SERVER_NAME = server
+CLIENT_NAME = client
 
-UTILS_SRCS = utils.c
+UTILS_SRCS = utils.c lists.c
 SERVER_SRCS = server.c
 CLIENT_SRCS = client.c
 
@@ -23,15 +25,14 @@ RM	= rm -rf
 
 all:	${NAME}
 
-${NAME}: ${SERVER_SRCS} ${CLIENT_SRCS}
-	@${CC} ${CFLAGS} -o server ${SERVER_SRCS} ${UTILS_SRCS}
-	@${CC} ${CFLAGS} -o client ${CLIENT_SRCS} ${UTILS_SRCS}
+${NAME}: ${SERVER_SRCS} ${CLIENT_SRCS} ${UTILS_SRCS}
+	@${CC} ${CFLAGS} -o ${SERVER_NAME} ${SERVER_SRCS} ${UTILS_SRCS}
+	@${CC} ${CFLAGS} -o ${CLIENT_NAME} ${CLIENT_SRCS} ${UTILS_SRCS}
 
 clean:
 	${RM} ${NAME}
 
 fclean: clean
-	${RM} ${NAME}
 
 re:	fclean all
 
