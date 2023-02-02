@@ -12,7 +12,35 @@
 
 #include "minitalk.h"
 
-void	null_kill(int pid)
+int	g_message_status = 1;
+
+int	check_pid(int argc, char **argv)
+{
+	if (argc < 3 || argc > 3)
+	{
+		write(1, "> Error: wrong number of arguments", 33);
+		return (1);
+	}
+	if (ft_atoi(argv[1]) <= 0)
+	{
+		write(1, "> Error: invalid PID", 20);
+		return (1);
+	}
+	return (0);
+}
+
+void	receive_confirmation(int sig, siginfo_t *siginfo, void *content)
+{
+	(void) content;
+	(void) siginfo;
+	if (sig == SIGUSR2)
+	{
+		g_message_status = 0;
+		write(1, "> OK: Message sent\n", 18);
+	}
+}
+
+void	send_null(int pid)
 {
 	int	i;
 
@@ -49,15 +77,7 @@ void	send_bits(int pid, char *str)
 		}
 		i++;
 	}
-	null_kill(pid);
-}
-
-void	receive_confirmation(int sig, siginfo_t *siginfo, void *content)
-{
-	(void) content;
-	(void) siginfo;
-	if (sig == SIGUSR1)
-		write(1, "> OK: Message sent\n", 18);
+	send_null(pid);
 }
 
 int	main(int argc, char **argv)
