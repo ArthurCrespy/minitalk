@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "../include/minitalk.h"
 
 int	g_message_status = 1;
 
@@ -68,7 +68,7 @@ void	send_bits(int pid, char *str)
 		bit = 0;
 		while (bit < 8)
 		{
-			usleep(100);
+			usleep(500);
 			if ((c & (0x01 << bit)) != 0)
 				kill(pid, SIGUSR1);
 			else

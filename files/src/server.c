@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include "minitalk.h"
+#include "../include/minitalk.h"
 
 void	send_confirmation(siginfo_t *siginfo)
 {
