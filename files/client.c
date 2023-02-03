@@ -6,7 +6,7 @@
 /*   By: acrespy <acrespy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 08:29:48 by acrespy           #+#    #+#             */
-/*   Updated: 2023/02/01 14:35:35 by acrespy          ###   ########.fr       */
+/*   Updated: 2023/02/02 15:54:52 by acrespy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	send_null(int pid)
 	i = 0;
 	while (i < 8)
 	{
-		usleep(100);
+		usleep(500);
 		kill(pid, SIGUSR2);
 		i++;
 	}
