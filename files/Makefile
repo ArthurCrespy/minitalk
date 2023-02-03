@@ -10,30 +10,62 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minitalk
-SERVER_NAME = server
-CLIENT_NAME = client
+NAME        := minitalk
 
-UTILS_SRCS = utils.c lists.c
-SERVER_SRCS = server.c
-CLIENT_SRCS = client.c
+NAME_SERVER := server
+NAME_CLIENT := client
 
-CC	= cc
-CFLAGS	= -Wall -Wextra -Werror
+SRC_DIR     := src
+SRCS_SERVER := \
+			server.c \
+			utils.c  \
+			lists.c  \
 
-RM	= rm -rf
+SRCS_CLIENT := \
+			client.c \
+			utils.c  \
+			lists.c  \
 
-all:	${NAME}
+SRCS_SERVER := ${SRCS_SERVER:%=${SRC_DIR}/%}
+SRCS_CLIENT := ${SRCS_CLIENT:%=${SRC_DIR}/%}
 
-${NAME}: ${SERVER_SRCS} ${CLIENT_SRCS} ${UTILS_SRCS}
-	@${CC} ${CFLAGS} -o ${SERVER_NAME} ${SERVER_SRCS} ${UTILS_SRCS}
-	@${CC} ${CFLAGS} -o ${CLIENT_NAME} ${CLIENT_SRCS} ${UTILS_SRCS}
+OBJ_DIR     := .objs
+OBJS_SERVER := ${SRCS_SERVER:${SRC_DIR}/%.c=${OBJ_DIR}/%.o}
+OBJS_CLIENT := ${SRCS_CLIENT:${SRC_DIR}/%.c=${OBJ_DIR}/%.o}
+
+CC          := clang
+CFLAGS      := -Wall -Wextra -Werror
+
+RM          := rm -f
+MAKEFLAGS   += --no-print-directory
+DIR_DUP     = mkdir -p ${@D}
+
+all: ${NAME_SERVER} ${NAME_CLIENT}
+
+${NAME_SERVER}: ${OBJS_SERVER}
+	${CC} ${OBJS_SERVER} -o ${NAME_SERVER}
+	${info EXECUTABLE CREATED: ${NAME_SERVER}}
+
+${NAME_CLIENT}: ${OBJS_CLIENT}
+	${CC} ${OBJS_CLIENT} -o ${NAME_CLIENT}
+	${info EXECUTABLE CREATED: ${NAME_CLIENT}}
+
+${OBJ_DIR}/%.o: ${SRC_DIR}/%.c
+	${DIR_DUP}
+	${CC} ${CFLAGS} -c -o $@ $<
+	${info OBJECT CREATED: $@}
 
 clean:
-	${RM} ${NAME}
+	${RM} ${OBJS_SERVER} ${OBJS_CLIENT}
+	${info REMOVED OBJECTS: ${OBJS_SERVER} ${OBJS_CLIENT}}
 
 fclean: clean
+	${RM} ${NAME_SERVER} ${NAME_CLIENT}
+	${info REMOVED EXECUTABLES: ${NAME_SERVER} ${NAME_CLIENT}}
 
-re:	fclean all
+re:
+	${MAKE} fclean
+	${MAKE} all
 
-.PHONY: all bonus clean fclean re
+.PHONY: clean fclean re
+.SILENT: ${OBJS_SERVER} ${OBJS_CLIENT} ${NAME_SERVER} ${NAME_CLIENT} clean fclean re
