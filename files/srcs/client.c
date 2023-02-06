@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minitalk.h"
+#include "../includes/minitalk.h"
 
 int	g_message_status = 1;
 

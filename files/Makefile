@@ -15,7 +15,7 @@ NAME        := minitalk
 NAME_SERVER := server
 NAME_CLIENT := client
 
-SRC_DIR     := src
+SRC_DIR     := srcs
 SRCS_SERVER := \
 			server.c \
 			utils.c  \

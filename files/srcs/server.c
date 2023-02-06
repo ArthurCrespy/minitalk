@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minitalk.h"
+#include "../includes/minitalk.h"
 
 void	send_confirmation(siginfo_t *siginfo)
 {

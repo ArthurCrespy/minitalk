@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minitalk.h"
+#include "../includes/minitalk.h"
 
 void	clear_list(t_struct *message)
 {
